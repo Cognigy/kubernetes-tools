@@ -1,6 +1,6 @@
 {
   "name": "initialization",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Automates the process of creating random secrets, blueprints for k8s secret objects and a database initialization snippet for MongoDB.",
   "main": "build/index.js",
   "bin": "build/index.js",
@@ -11,6 +11,10 @@
   "keywords": [
     "kubernetes"
   ],
+  "repository": {
+    "type": "git",
+    "directory": "https://github.com/cognigy/kubernetes-tools"
+  },
   "author": "Cognigy GmbH",
   "license": "MIT",
   "dependencies": {
