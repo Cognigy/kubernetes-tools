@@ -215,6 +215,18 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 		};
 	}
 
+	if (data['rce-verify-token'] !== undefined) {
+		return {
+			secret: {
+				...secret,
+				data: {
+					...data,
+					'rce-verify-token': toBase64(createCompactSecret())
+				}
+			}
+		};
+	}
+
 	if (data['secret'] !== undefined) {
 		return {
 			secret: {

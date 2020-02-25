@@ -14,6 +14,7 @@ export interface ISecret {
 		'amazon-client-id'?: string;
 		'amazon-client-secret'?: string;
 		'fb-verify-token'?: string;
+		'rce-verify-token'?: string;
 		'secret'?: string;
 		'odata-super-api-key'?: string;
 	};
