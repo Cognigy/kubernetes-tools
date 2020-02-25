@@ -11,6 +11,10 @@
   "keywords": [
     "kubernetes"
   ],
+  "repository": {
+    "type": "git",
+    "directory": "https://github.com/cognigy/kubernetes-tools"
+  },
   "author": "Cognigy GmbH",
   "license": "MIT",
   "dependencies": {
