@@ -153,13 +153,14 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 		};
 	}
 
-	if (data['security-smtp-password'] !== undefined) {
+	if (data['security-smtp-password'] !== undefined || data['system-smtp-password']) {
 		return {
 			secret: {
 				...secret,
 				data: {
 					...data,
-					'security-smtp-password': toBase64(createDummySecret())
+					'security-smtp-password': toBase64(createDummySecret()),
+					'system-smtp-password': toBase64(createDummySecret())
 				}
 			}
 		};
@@ -251,7 +252,9 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 		};
 	}
 
-	console.log(`Unknown secret. Can't fill it!`);
+	console.log(`Secret does not have known structure: ${name}`);
+
+	return {} as any;
 }
 
 /**

@@ -26,9 +26,13 @@ export function generateFiles() {
 		for (const file of files) {
 			const parsedSecret = readAndParseYaml(join('core', 'secrets.dist', file));
 			const { secret, serviceName, dbPassword } = fillSecret(parsedSecret);
-			writeSecret(secret, file);
 
-			dbCreationScript += createSingleDatabaseScriptSnippet(serviceName, dbPassword);
+			if (secret && serviceName && dbPassword) {
+				writeSecret(secret, file);
+				dbCreationScript += createSingleDatabaseScriptSnippet(serviceName, dbPassword);
+			} else {
+				console.log(`Skipping to process file with name: ${file}`);
+			}
 		}
 
 		/** Write the initialization script for MongoDB on disk */

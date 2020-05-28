@@ -8,6 +8,7 @@ export interface ISecret {
 		'connection-string-api'?: string;
 		'mongo-initdb-root-password'?: string;
 		'security-smtp-password'?: string;
+		'system-smtp-password'?: string;
 		'tls.crt'?: string;
 		'tls.key'?: string;
 		'redis-persistent-password.conf'?: string;
