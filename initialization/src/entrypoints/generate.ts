@@ -27,11 +27,12 @@ export function generateFiles() {
 			const parsedSecret = readAndParseYaml(join('core', 'secrets.dist', file));
 			const { secret, serviceName, dbPassword } = fillSecret(parsedSecret);
 
-			if (secret && serviceName && dbPassword) {
+			if (secret) {
 				writeSecret(secret, file);
+			}
+
+			if (serviceName && dbPassword) {
 				dbCreationScript += createSingleDatabaseScriptSnippet(serviceName, dbPassword);
-			} else {
-				console.log(`Skipping to process file with name: ${file}`);
 			}
 		}
 

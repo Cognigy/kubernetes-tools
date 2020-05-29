@@ -12,6 +12,7 @@ export interface ISecret {
 		'tls.crt'?: string;
 		'tls.key'?: string;
 		'redis-persistent-password.conf'?: string;
+		'redis-password.conf'?: string;
 		'amazon-client-id'?: string;
 		'amazon-client-secret'?: string;
 		'fb-verify-token'?: string;

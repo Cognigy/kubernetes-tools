@@ -153,7 +153,8 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 		};
 	}
 
-	if (data['security-smtp-password'] !== undefined || data['system-smtp-password']) {
+	if (data['security-smtp-password'] !== undefined ||
+		data['system-smtp-password'] !== undefined) {
 		return {
 			secret: {
 				...secret,
@@ -174,6 +175,18 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 					...data,
 					'tls.crt': toBase64(createDummySecret()),
 					'tls.key': toBase64(createDummySecret())
+				}
+			}
+		};
+	}
+
+	if (data['redis-password.conf'] !== undefined) {
+		return {
+			secret: {
+				...secret,
+				data: {
+					...data,
+					'redis-password.conf': toBase64(`requirepass ${createCompactSecret()}`)
 				}
 			}
 		};
