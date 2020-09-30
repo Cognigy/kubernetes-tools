@@ -4,7 +4,6 @@ import { join } from "path";
 
 /** Custom modules */
 import {
-	generateSecretsFolder,
 	readAndParseYaml,
 	fillSecret,
 	writeSecret,
@@ -14,9 +13,6 @@ import {
 
 export function generateFiles() {
 	try {
-		/** Generate the 'core/secrets' folder if necessary */
-		generateSecretsFolder();
-
 		/** Read dir contents for 'core/secrets.dist' */
 		const files = readdirSync('secrets');
 

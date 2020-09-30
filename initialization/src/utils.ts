@@ -1,5 +1,5 @@
 /** Node modules */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { randomBytes } from "crypto";
 import { join } from "path";
 import { safeLoad, safeDump } from "js-yaml";
@@ -48,37 +48,6 @@ function createLongSecret() {
  */
 function createDummySecret() {
 	return 'aaa';
-}
-
-/**
- * Checks whether the '/core/secrets' folder does already exist.
- * If not, the path will be created.
- */
-export function generateSecretsFolder() {
-	/** Check whether 'core/secrets' already exists */
-	const secretsExist = checkSecretsFolder();
-
-	/** Abort if we already have a 'core/secrets' folder */
-	if (secretsExist) {
-		console.log("It seems that you already have a 'core/secrets' folder. Exiting now.");
-		process.exit(0);
-	}
-
-	try {
-		/** Createe 'core/secrets' */
-		mkdirSync(join('core', 'secrets'));
-	} catch (err) {
-		console.log("Unable to create folder 'secrets'. Exiting now.");
-		process.exit(0);
-	}
-}
-
-/**
- * Checks whether the '/core/secrets' folder does already exist.
- */
-export function checkSecretsFolder() {
-	/** Check whether 'core/secrets' is there */
-	return existsSync(join('core', 'secrets'));
 }
 
 /**
