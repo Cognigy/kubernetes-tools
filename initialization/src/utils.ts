@@ -308,7 +308,7 @@ export function writeSecret(secret: ISecret, filename: string) {
 		process.exit(1);
 	}
 
-	writeFileSync(join('core', 'secrets', filename), yaml);
+	writeFileSync(join('secrets', filename), yaml);
 }
 
 /**

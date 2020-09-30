@@ -18,13 +18,13 @@ export function generateFiles() {
 		generateSecretsFolder();
 
 		/** Read dir contents for 'core/secrets.dist' */
-		const files = readdirSync(join('core', 'secrets.dist'));
+		const files = readdirSync('secrets');
 
 		/** Read and parse all yaml files (k8s secrets) */
 		let dbCreationScript = "";
 
 		for (const file of files) {
-			const parsedSecret = readAndParseYaml(join('core', 'secrets.dist', file));
+			const parsedSecret = readAndParseYaml(join('secrets', file));
 			const { secret, serviceName, dbPassword } = fillSecret(parsedSecret);
 
 			if (secret) {
