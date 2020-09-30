@@ -66,7 +66,7 @@ export function generateSecretsFolder() {
 
 	try {
 		/** Createe 'core/secrets' */
-		mkdirSync(join('core', 'secrets'));
+		mkdirSync('secrets');
 	} catch (err) {
 		console.log("Unable to create folder 'secrets'. Exiting now.");
 		process.exit(0);
@@ -78,7 +78,7 @@ export function generateSecretsFolder() {
 */
 export function checkSecretsFolder() {
 	/** Check whether 'core/secrets' is there */
-	return existsSync(join('core', 'secrets'));
+	return existsSync('secrets');
 }
 
 /**
