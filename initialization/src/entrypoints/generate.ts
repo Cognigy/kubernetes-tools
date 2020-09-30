@@ -8,19 +8,23 @@ import {
 	fillSecret,
 	writeSecret,
 	createSingleDatabaseScriptSnippet,
-	writeDatabaseInitialization
+	writeDatabaseInitialization,
+	generateSecretsFolder
 } from "../utils";
 
 export function generateFiles() {
 	try {
+		/** Generate the 'core/secrets' folder if necessary */
+		generateSecretsFolder();
+
 		/** Read dir contents for 'core/secrets.dist' */
-		const files = readdirSync('secrets');
+		const files = readdirSync('secrets.dist');
 
 		/** Read and parse all yaml files (k8s secrets) */
 		let dbCreationScript = "";
 
 		for (const file of files) {
-			const parsedSecret = readAndParseYaml(join('secrets', file));
+			const parsedSecret = readAndParseYaml(join('secrets.dist', file));
 			const { secret, serviceName, dbPassword } = fillSecret(parsedSecret);
 
 			if (secret) {

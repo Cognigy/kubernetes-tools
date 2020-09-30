@@ -1,5 +1,5 @@
 /** Node modules */
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { randomBytes } from "crypto";
 import { join } from "path";
 import { safeLoad, safeDump } from "js-yaml";
@@ -48,6 +48,37 @@ function createLongSecret() {
  */
 function createDummySecret() {
 	return 'aaa';
+}
+
+/*
+* Checks whether the '/core/secrets' folder does already exist.
+* If not, the path will be created.
+*/
+export function generateSecretsFolder() {
+	/** Check whether 'core/secrets' already exists */
+	const secretsExist = checkSecretsFolder();
+
+	/** Abort if we already have a 'core/secrets' folder */
+	if (secretsExist) {
+		console.log("It seems that you already have a 'secrets' folder. We don't want to override you work! Exiting now.");
+		process.exit(0);
+	}
+
+	try {
+		/** Createe 'core/secrets' */
+		mkdirSync(join('core', 'secrets'));
+	} catch (err) {
+		console.log("Unable to create folder 'secrets'. Exiting now.");
+		process.exit(0);
+	}
+}
+
+/**
+* Checks whether the '/core/secrets' folder does already exist.
+*/
+export function checkSecretsFolder() {
+	/** Check whether 'core/secrets' is there */
+	return existsSync(join('core', 'secrets'));
 }
 
 /**
@@ -250,14 +281,14 @@ export function createSingleDatabaseScriptSnippet(serviceName: string, dbPasswor
 	if (!serviceName || !dbPassword) return "";
 
 	let snippet =
-	`use ${serviceName}\n` +
-	`db.createUser({\n` +
-	`	user: "${serviceName}",\n` +
-	`	pwd: "${dbPassword}",\n` +
-	`	roles: [\n` +
-	`		{ role: "readWrite", db: "${serviceName}" }\n` +
-	`	]\n` +
-	`});\n\n`;
+		`use ${serviceName}\n` +
+		`db.createUser({\n` +
+		`	user: "${serviceName}",\n` +
+		`	pwd: "${dbPassword}",\n` +
+		`	roles: [\n` +
+		`		{ role: "readWrite", db: "${serviceName}" }\n` +
+		`	]\n` +
+		`});\n\n`;
 
 	return snippet;
 }
