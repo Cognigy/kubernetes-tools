@@ -60,7 +60,7 @@ export function generateSecretsFolder() {
 
 	/** Abort if we already have a 'core/secrets' folder */
 	if (secretsExist) {
-		console.log("It seems that you already have a 'secrets' folder. We don't want to override you work! Exiting now.");
+		console.log("It seems that you already have a 'secrets' folder. We don't want to override your current values! Exiting now.");
 		process.exit(0);
 	}
 
