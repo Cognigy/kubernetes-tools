@@ -11,6 +11,7 @@ import {
 	writeDatabaseInitialization,
 	generateSecretsFolder
 } from "../utils";
+import { ISecret } from "../interfaces/secret";
 
 export function generateFiles() {
 	try {
@@ -24,7 +25,7 @@ export function generateFiles() {
 		let dbCreationScript = "";
 
 		for (const file of files) {
-			const parsedSecret = readAndParseYaml(join('secrets.dist', file));
+			const parsedSecret = readAndParseYaml(join('secrets.dist', file)) as ISecret;
 			const { secret, serviceName, dbPassword } = fillSecret(parsedSecret);
 
 			if (secret) {
