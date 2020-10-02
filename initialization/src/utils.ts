@@ -51,21 +51,18 @@ function createDummySecret() {
 }
 
 /*
-* Checks whether the '/core/secrets' folder does already exist.
+* Checks whether the 'secrets' folder does already exist.
 * If not, the path will be created.
 */
 export function generateSecretsFolder() {
-	/** Check whether 'core/secrets' already exists */
 	const secretsExist = checkSecretsFolder();
 
-	/** Abort if we already have a 'core/secrets' folder */
 	if (secretsExist) {
 		console.log("It seems that you already have a 'secrets' folder. We don't want to override your current values! Exiting now.");
 		process.exit(0);
 	}
 
 	try {
-		/** Createe 'core/secrets' */
 		mkdirSync('secrets');
 	} catch (err) {
 		console.log("Unable to create folder 'secrets'. Exiting now.");
@@ -74,10 +71,9 @@ export function generateSecretsFolder() {
 }
 
 /**
-* Checks whether the '/core/secrets' folder does already exist.
+* Checks whether the 'secrets' folder does already exist.
 */
 export function checkSecretsFolder() {
-	/** Check whether 'core/secrets' is there */
 	return existsSync('secrets');
 }
 
