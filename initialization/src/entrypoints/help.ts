@@ -22,9 +22,8 @@ const sections: commandLineUsage.Section[] = [
 			{
 				name: "generate",
 				alias: "g",
-				description: `Generates a copy of the 'secrets.dist' folder in
-				the same working directory - named 'secrets'. Fills all secrets
-				in this new folder with secure random-data. You might want to adjust
+				description: `Adjusts the placeholders in your 'secrets' folder
+				and generates secure random credentials. You might want to adjust
 				certain secrets before you apply them to your cluster.`
 			}
 		]

@@ -50,23 +50,20 @@ function createDummySecret() {
 	return 'aaa';
 }
 
-/**
- * Checks whether the '/core/secrets' folder does already exist.
- * If not, the path will be created.
- */
+/*
+* Checks whether the 'secrets' folder does already exist.
+* If not, the path will be created.
+*/
 export function generateSecretsFolder() {
-	/** Check whether 'core/secrets' already exists */
 	const secretsExist = checkSecretsFolder();
 
-	/** Abort if we already have a 'core/secrets' folder */
 	if (secretsExist) {
-		console.log("It seems that you already have a 'core/secrets' folder. Exiting now.");
+		console.log("It seems that you already have a 'secrets' folder. We don't want to override your current values! Exiting now.");
 		process.exit(0);
 	}
 
 	try {
-		/** Createe 'core/secrets' */
-		mkdirSync(join('core', 'secrets'));
+		mkdirSync('secrets');
 	} catch (err) {
 		console.log("Unable to create folder 'secrets'. Exiting now.");
 		process.exit(0);
@@ -74,11 +71,10 @@ export function generateSecretsFolder() {
 }
 
 /**
- * Checks whether the '/core/secrets' folder does already exist.
- */
+* Checks whether the 'secrets' folder does already exist.
+*/
 export function checkSecretsFolder() {
-	/** Check whether 'core/secrets' is there */
-	return existsSync(join('core', 'secrets'));
+	return existsSync('secrets');
 }
 
 /**
@@ -281,14 +277,14 @@ export function createSingleDatabaseScriptSnippet(serviceName: string, dbPasswor
 	if (!serviceName || !dbPassword) return "";
 
 	let snippet =
-	`use ${serviceName}\n` +
-	`db.createUser({\n` +
-	`	user: "${serviceName}",\n` +
-	`	pwd: "${dbPassword}",\n` +
-	`	roles: [\n` +
-	`		{ role: "readWrite", db: "${serviceName}" }\n` +
-	`	]\n` +
-	`});\n\n`;
+		`use ${serviceName}\n` +
+		`db.createUser({\n` +
+		`	user: "${serviceName}",\n` +
+		`	pwd: "${dbPassword}",\n` +
+		`	roles: [\n` +
+		`		{ role: "readWrite", db: "${serviceName}" }\n` +
+		`	]\n` +
+		`});\n\n`;
 
 	return snippet;
 }
@@ -308,7 +304,7 @@ export function writeSecret(secret: ISecret, filename: string) {
 		process.exit(1);
 	}
 
-	writeFileSync(join('core', 'secrets', filename), yaml);
+	writeFileSync(join('secrets', filename), yaml);
 }
 
 /**
