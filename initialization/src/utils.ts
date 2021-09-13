@@ -120,6 +120,23 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 		};
 	}
 
+	if (serviceName === "mongodb-exporter" && data['connection-string'] !== undefined) {
+		const dbPassword = createCompactSecret();
+		const connectionString = `mongodb://${serviceName}:${dbPassword}@mongo-server:27017/admin`;
+
+		return {
+			secret: {
+				...secret,
+				data: {
+					...data,
+					'connection-string': toBase64(connectionString)
+				}
+			},
+			serviceName,
+			dbPassword
+		}
+	}
+
 	if (data['connection-string'] !== undefined) {
 		const dbPassword = createCompactSecret();
 		const connectionString = `mongodb://${serviceName}:${dbPassword}@mongo-server:27017/${serviceName}`;
@@ -287,6 +304,29 @@ export function createSingleDatabaseScriptSnippet(serviceName: string, dbPasswor
 		`	pwd: "${dbPassword}",\n` +
 		`	roles: [\n` +
 		`		{ role: "readWrite", db: "${serviceName}" }\n` +
+		`	]\n` +
+		`});\n\n`;
+
+	return snippet;
+}
+
+/**
+ * Creates a MongoDB complient snippet that will generate a user
+ * which has the role to monitor the cluster.
+ * @param userName The name of the user which is assigned the role
+ * @param dbPassword The password of the database to generate.
+ * @returns A string - JavaScript snippet that is compatible with MongoDB
+ */
+export function createClusterMonitorScriptSnippet(userName: string, dbPassword: string) {
+	if (!userName || !dbPassword) return "";
+
+	let snippet =
+		`db.getSiblingDB("admin").createUser({\n` +
+		`	user: "${userName}",\n` +
+		`	pwd: "${dbPassword}",\n` +
+		`	roles: [\n` +
+		`		{ role: "clusterMonitor", db: "admin" },\n` +
+		`		{ role: "read", db: "local" }\n` +
 		`	]\n` +
 		`});\n\n`;
 
