@@ -1,3 +1,13 @@
+# 2.1.0
+
+Released: September 14th, 2021
+
+Add some configurations to support the new monitoring stack:
+- A new key/value pair in the Secrets for Redis and Redis Persistent clusters
+- A monitoring user to read metrics from MongoDB
+
+---
+
 # 2.0.0
 Released: October 2nd, 2020
 
