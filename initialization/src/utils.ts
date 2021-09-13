@@ -177,24 +177,28 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 	}
 
 	if (data['redis-password.conf'] !== undefined) {
+		const redisPassword = createCompactSecret()
 		return {
 			secret: {
 				...secret,
 				data: {
 					...data,
-					'redis-password.conf': toBase64(`requirepass ${createCompactSecret()}`)
+					'redis-password.conf': toBase64(`requirepass ${redisPassword}`),
+					'REDIS_PASSWORD': toBase64(redisPassword)
 				}
 			}
 		};
 	}
 
 	if (data['redis-persistent-password.conf'] !== undefined) {
+		const redisPersistentPassword = createCompactSecret()
 		return {
 			secret: {
 				...secret,
 				data: {
 					...data,
-					'redis-persistent-password.conf': toBase64(`requirepass ${createCompactSecret()}`)
+					'redis-persistent-password.conf': toBase64(`requirepass ${redisPersistentPassword}`),
+					'REDIS_PERSISTENT_PASSWORD': toBase64(redisPersistentPassword)
 				}
 			}
 		};

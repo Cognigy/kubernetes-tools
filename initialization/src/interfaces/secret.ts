@@ -12,6 +12,8 @@ export interface ISecret {
 		'tls.crt'?: string;
 		'tls.key'?: string;
 		'redis-persistent-password.conf'?: string;
+		'REDIS_PERSISTENT_PASSWORD'?: string;
+		'REDIS_PASSWORD'?: string;
 		'redis-password.conf'?: string;
 		'amazon-client-id'?: string;
 		'amazon-client-secret'?: string;
