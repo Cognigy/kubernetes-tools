@@ -9,7 +9,8 @@ import {
 	writeSecret,
 	createSingleDatabaseScriptSnippet,
 	writeDatabaseInitialization,
-	generateSecretsFolder
+	generateSecretsFolder,
+	createClusterMonitorScriptSnippet
 } from "../utils";
 import { ISecret } from "../interfaces/secret";
 
@@ -33,7 +34,13 @@ export function generateFiles() {
 			}
 
 			if (serviceName && dbPassword) {
-				dbCreationScript += createSingleDatabaseScriptSnippet(serviceName, dbPassword);
+				/** Add a user for MongoDB exporter */
+				if (serviceName === "mongodb-exporter") {
+					dbCreationScript += createClusterMonitorScriptSnippet(serviceName, dbPassword);
+				}
+				else {
+					dbCreationScript += createSingleDatabaseScriptSnippet(serviceName, dbPassword);
+				}
 			}
 		}
 
