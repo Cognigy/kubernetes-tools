@@ -282,6 +282,18 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 		};
 	}
 
+	if (data['management-ui-creds.json'] !== undefined) {
+		return {
+			secret: {
+				...secret,
+				data: {
+					...data,
+					'management-ui-creds.json': ''
+				}
+			}
+		};
+	}
+
 	console.log(`Secret does not have known structure: ${name}`);
 
 	return {} as any;

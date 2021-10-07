@@ -21,5 +21,6 @@ export interface ISecret {
 		'rce-verify-token'?: string;
 		'secret'?: string;
 		'odata-super-api-key'?: string;
+		'management-ui-creds.json'?: string;
 	};
 }
