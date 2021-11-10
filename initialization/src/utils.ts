@@ -122,7 +122,7 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 
 	if (serviceName === "mongodb-exporter" && data['connection-string'] !== undefined) {
 		const dbPassword = createCompactSecret();
-		const connectionString = `mongodb://${serviceName}:${dbPassword}@mongo-server:27017/admin`;
+		const connectionString = `mongodb://${serviceName}:${dbPassword}@mongodb-0.mongodb-headless.mongodb.svc.cluster.local:27017,mongodb-1.mongodb-headless.mongodb.svc.cluster.local:27017,mongodb-2.mongodb-headless.mongodb.svc.cluster.local:27017/admin`;
 
 		return {
 			secret: {
@@ -139,7 +139,7 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 
 	if (data['connection-string'] !== undefined) {
 		const dbPassword = createCompactSecret();
-		const connectionString = `mongodb://${serviceName}:${dbPassword}@mongo-server:27017/${serviceName}`;
+		const connectionString = `mongodb://${serviceName}:${dbPassword}@mongodb-0.mongodb-headless.mongodb.svc.cluster.local:27017,mongodb-1.mongodb-headless.mongodb.svc.cluster.local:27017,mongodb-2.mongodb-headless.mongodb.svc.cluster.local:27017/${serviceName}`;
 
 		return {
 			secret: {
