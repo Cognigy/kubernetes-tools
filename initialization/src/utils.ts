@@ -1,12 +1,45 @@
 /** Node modules */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { randomBytes } from "crypto";
+import { randomBytes, generateKeyPairSync } from "crypto";
 import { join } from "path";
 import { safeLoad, safeDump } from "js-yaml";
 
 /* Interfaces */
 import { ISecret } from "./interfaces/secret";
 import { ISecretWrapper } from "./interfaces/secretWrapper";
+
+/** Store the keyPairs so we can use it next time, a file with same keyPair comes */
+const rsaKeyPairs = {};
+
+/**
+ * Create a RSA key pair and stores it in-memory for use.
+ * @param name name of the key pair
+ * @returns void
+ */
+function createRSAKeyPair(name: string) {
+	if (rsaKeyPairs[name]) {
+		return;
+	}
+		
+	const { privateKey, publicKey } = generateKeyPairSync('rsa', {
+		modulusLength: 4096,
+		publicKeyEncoding: {
+			type: 'pkcs1',
+			format: 'pem'
+		},
+		privateKeyEncoding: {
+			type: 'pkcs8',
+			format: 'pem',
+			cipher: 'aes-256-cbc',
+			passphrase: createLongSecret()
+		}
+	});
+
+	rsaKeyPairs[name] = {
+		privateKey,
+		publicKey
+	};
+}
 
 /**
  * Creates a random string with given length.
@@ -105,6 +138,25 @@ export function fillSecret(secret: ISecret): ISecretWrapper {
 	const { data, metadata } = secret;
 	const { name } = metadata;
 	const serviceName = name.replace('cognigy-', '');
+
+	if (name === 'cognigy-insights-service-collector-jwt-private-key' || name === 'cognigy-insights-service-collector-jwt-public-key') {
+
+		if (!rsaKeyPairs[serviceName]) {
+			createRSAKeyPair(serviceName);
+		}
+
+		const keyType = name === 'cognigy-insights-service-collector-jwt-private-key' ? 'privateKey' : 'publicKey';
+
+		return {
+			secret: {
+				...secret,
+				data: {
+					...data,
+					secret: toBase64(rsaKeyPairs[serviceName][keyType]),
+				},
+			}
+		};
+	}
 
 	if (name === "cognigy-rabbitmq") {
 		const rabbitPassword = createCompactSecret();
